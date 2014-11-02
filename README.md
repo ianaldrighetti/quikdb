@@ -47,4 +47,12 @@ All of the following are repeated as many times as there is columns:
 
 ###### Column Types
 
+**Numbers**
+
+Types: unsigned/signed short, unsigned/signed integer, unsigned/signed longs.
+
+**Text**
+
+Types: varchar(<LENGTH>), text, mediumtext, largetext.
+
 ###### Auto Increment Columns
