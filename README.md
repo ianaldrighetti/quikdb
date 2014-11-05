@@ -76,4 +76,24 @@ Type Name | Type Identifier | Max Size (bytes) | Allows Default?
 
 All text types are stored as-is within the file. They are all preceded within the data file with the length of the value.
 
+**Other Types**
+
+QuikDB does not support any other types, such as date/time or booleans. These can be stored in text or integer types anyways.
+
 ###### Auto Increment Columns
+
+When a column is defined to auto increment, the value will be retrieved from a file containing the last used value. This value is stored within a file with the name of the table with the extension ".qai".
+
+Note that this value stored is the *last* used value, so once the value is retrieved from the file it is incremented and used for the row then stored into the file.
+
+##### Table Indexes
+
+The table index information is stored within a file with the name of the table with the extension ".qti". This contains information about all the indexes within the table -- but not the indexes themselves.
+
+*This section is not yet complete.*
+
+##### Table Data
+
+All table data is stored within a single file, it has the same name as the table with the extension ".qtd".
+
+*This section is not yet complete.*
