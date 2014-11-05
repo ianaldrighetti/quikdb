@@ -35,7 +35,7 @@ All of the following are repeated as many times as there is columns:
 
 `[column 1 name]` The name of the column, which has two pieces: the length (unsigned byte [unsigned char used in PHP]) and then the name of the column. The names are under the same restrictions as the databases and tables: alphanumeric, including underscores but cannot start with a number.
 
-`[column 1 type]` The type is indicated by 3 characters, types available are laid out below.
+`[column 1 type]` The type is indicated by 5 characters, types available are laid out below.
 
 `[column 1 size]` The size of the type, if the type does not support a size this will always be 0. The maximum size is 2<sup>16</sup> -1 (65,535, unsigned short).
 
@@ -49,10 +49,31 @@ All of the following are repeated as many times as there is columns:
 
 **Numbers**
 
-Types: unsigned/signed short, unsigned/signed integer, unsigned/signed longs.
+The following integer types are supported:
+
+Type Name | Type Identifier | Min | Max
+:--- | :---: | :---: | :---:
+`SMALLINT` | `SMINT` | -32,768 | 32,767
+`UNSIGNED SMALLINT` | `USINT` | 0 | 65,535
+`INTEGER` | `INTGR` | -2,147,483,648 | 2,147,483,647
+`UNSIGNED INTEGER` | `UNINT` | 0 | 4,294,967,295
+`BIGINT` | `BGINT` | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807
+`UNSIGNED BIGINT` | `UBINT` | 0 | 18,446,744,073,709,551,615
+`FLOAT` | `FLOAT` | *see below* | *see below*
+
+All types are stored in a binary format that is system independent, the only requirement is that the underlying type chosen must support the range specified - however, if the underlying storage type is able to store a larger value than the range for that type it must enforce that range manually.
+
+The same applies to the `FLOAT` type, as the underlying storage used is independent of implementation. This means the range itself may vary as well.
 
 **Text**
 
-Types: varchar(<LENGTH>), text, mediumtext, largetext.
+Type Name | Type Identifier | Max Size (bytes) | Allows Default?
+:--- | :---: | :---: | :---:
+`VARCHAR(*length*)` | `VCHAR` | 255 | *Yes*
+`TEXT` | `RTEXT` | 65,535 | *No*
+`MEDIUMTEXT` | `MTEXT` | 16,777,215 | *No*
+`LARGETEXT` | `LTEXT` | 4,294,967,295 | *No*
+
+All text types are stored as-is within the file. They are all preceded within the data file with the length of the value.
 
 ###### Auto Increment Columns
