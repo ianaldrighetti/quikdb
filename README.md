@@ -61,9 +61,11 @@ Type Name | Type Identifier | Min | Max
 `UNSIGNED BIGINT` | `UBINT` | 0 | 18,446,744,073,709,551,615
 `FLOAT` | `FLOAT` | *see below* | *see below*
 
-All types are stored in a binary format that is system independent, the only requirement is that the underlying type chosen must support the range specified - however, if the underlying storage type is able to store a larger value than the range for that type it must enforce that range manually.
+All types are stored in a binary format that is system dependent, the only requirement is that the underlying type chosen must support the range specified - however, if the underlying storage type is able to store a larger value than the range for that type it must enforce that range manually.
 
-The same applies to the `FLOAT` type, as the underlying storage used is independent of implementation. This means the range itself may vary as well.
+The same applies to the `FLOAT` type, as the underlying storage used is dependent of implementation. This means the range itself may vary as well.
+
+Because number types are stored in a system dependent manner, the data files may not be transferrable from one system to another due to possible data corruption. This means if data would need to be transferred to another machine, it would be best to export it all as text then import it through the database layer.
 
 **Text**
 
@@ -96,4 +98,14 @@ The table index information is stored within a file with the name of the table w
 
 All table data is stored within a single file, it has the same name as the table with the extension ".qtd".
 
-*This section is not yet complete.*
+The following is an example of a single row within the table data file.
+
+```
+[row 1 length][column 1 data][column 2 data]...[column n data]
+```
+
+The setup is very simple, each row simply has a row length in front of it (this length excludes the length itself), followed by the column data itself.
+
+`[row 1 length]` As stated above, this is the length of all the row's column data, not including the row length itself. The exact data type used to store this information is not defined strictly, it all depends on each implementation. However, the maximum size this length type can be is the limit on how much each row can store.
+
+`[column 1...n data]` The data stored after depends entirely on the type of each individual column. The column name and type should be retrieved from the table information and not stored here. Some types may require that part of the data include the length (for variable length types, e.g. text), others may not (number types).
