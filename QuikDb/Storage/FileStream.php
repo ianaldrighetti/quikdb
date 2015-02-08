@@ -52,7 +52,7 @@ class FileStream
      * @param bool $readonly Whether to open the file in read-only mode, otherwise it is read and write.
      * @return bool
      */
-    public function open($filename, $readonly = false)
+    protected function open($filename, $readonly = false)
     {
         if (!is_null($this->fp))
         {
@@ -84,7 +84,7 @@ class FileStream
      *
      * @return bool
      */
-    public function close()
+    protected function close()
     {
         if (is_null($this->fp))
         {
@@ -115,7 +115,7 @@ class FileStream
      * @param mixed $data The data to write to the stream.
      * @return int The number of bytes written to the stream, or false on failure.
      */
-    public function write($data)
+    protected function write($data)
     {
         if (is_null($this->fp))
         {
@@ -135,7 +135,7 @@ class FileStream
      * @param int $length
      * @return string
      */
-    public function read($length)
+    protected function read($length)
     {
         if (is_null($this->fp))
         {
@@ -151,7 +151,7 @@ class FileStream
      * @param int $offset The offset, in bytes.
      * @return bool
      */
-    public function advance($offset)
+    protected function advance($offset)
     {
         if (is_null($this->fp))
         {
@@ -167,7 +167,7 @@ class FileStream
      * @param int $offset The offset, in bytes.
      * @return bool
      */
-    public function move($offset)
+    protected function move($offset)
     {
         if (is_null($this->fp))
         {
@@ -182,7 +182,7 @@ class FileStream
      *
      * @return bool
      */
-    public function flush()
+    protected function flush()
     {
         if (is_null($this->fp))
         {

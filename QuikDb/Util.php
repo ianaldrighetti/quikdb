@@ -18,4 +18,13 @@ class Util
     {
         return preg_match('~^[a-z][a-z0-9_]*$~i', $name) !== false;
     }
+
+    /**
+     * @param $str
+     * @return int
+     */
+    public static function strlen($str)
+    {
+        return function_exists('mb_strlen') ? mb_strlen($str) : strlen($str);
+    }
 }
