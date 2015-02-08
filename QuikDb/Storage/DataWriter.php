@@ -17,7 +17,7 @@ class DataWriter extends FileStream
      */
     public function __construct($filename)
     {
-        $this->open($filename, false);
+        parent::__construct($filename, false);
     }
 
     /**
@@ -95,7 +95,7 @@ class DataWriter extends FileStream
 
             return;
         }
-        
+
         $this->write(pack('q', $value));
     }
 

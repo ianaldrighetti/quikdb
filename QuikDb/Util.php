@@ -27,4 +27,20 @@ class Util
     {
         return function_exists('mb_strlen') ? mb_strlen($str) : strlen($str);
     }
+
+    /**
+     * @return int
+     */
+    public static function getFloatSize()
+    {
+        static $size = null;
+
+        if (!is_null($size))
+        {
+            return $size;
+        }
+
+        $size = strlen(pack('f', 1.1));
+        return $size;
+    }
 }
