@@ -1,6 +1,11 @@
 <?php
 namespace QuikDb;
 
+/**
+ * Class Util
+ *
+ * @package QuikDb
+ */
 class Util
 {
     /**
