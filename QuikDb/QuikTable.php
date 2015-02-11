@@ -2,9 +2,17 @@
 namespace QuikDb;
 
 use QuikDb\Exception\QuikDbException;
+use QuikDb\Objects\QuikTableStructure;
 
 class QuikTable
 {
+    public $db;
+
+    public function __construct(QuikDb $db)
+    {
+        $this->db = $db;
+    }
+
     public function listTables()
     {
         // TODO
@@ -14,7 +22,7 @@ class QuikTable
     public function exists($name)
     {
         // TODO
-        return false;
+        return realpath($this->db->root(). DIRECTORY_SEPARATOR. $name. ".qts");
     }
 
     public function createTable($name, $columns, $indexes = array())
@@ -31,6 +39,10 @@ class QuikTable
         {
             throw new QuikDbException("The column information was expected to be an array.");
         }
+        else if (count($columns) == 0)
+        {
+            throw new QuikDbException("At least one column is required.");
+        }
 
         $defaults = array(
             'nullable' => true,
@@ -44,11 +56,7 @@ class QuikTable
         {
             if (!Util::isNameAllowed($columnName))
             {
-                throw new QuikDbException("The column name is not allowed: ". $columnName);
-            }
-            else if (array_key_exists($columnName, $columns))
-            {
-                throw new QuikDbException("The column name must be unique: ". $columnName);
+                throw new QuikDbException("The column name is not allowed: " . $columnName);
             }
             else if (!array_key_exists('type', $column))
             {
@@ -58,6 +66,7 @@ class QuikTable
 
             // Make sure everything is defined, if it isn't use the default.
             $column = array_merge($defaults, $column);
+            $columns[$columnName] = $column;
 
             if ($auto_increment && $column['auto_increment'])
             {
@@ -68,6 +77,21 @@ class QuikTable
         }
 
         // Everything is good. So we can create the table.
+        $structure = new QuikTableStructure($this->db->root());
+        $structure->setColumns($columns);
+        $structure->store($name);
+    }
 
+    public function getTableStructure($name)
+    {
+        if (!$this->exists($name))
+        {
+            throw new QuikDbException("Table doesn't exist: ". $name);
+        }
+
+        $structure = new QuikTableStructure($this->db->root());
+        $structure->read($name);
+
+        return $structure->getColumns();
     }
 }

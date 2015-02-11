@@ -70,6 +70,28 @@ class QuikDb
     }
 
     /**
+     * @param string $directory
+     * @return bool
+     * @throws QuikDbException
+     */
+    public static function exists($directory)
+    {
+        $database = basename($directory);
+
+        if (substr($database, -4, 4) == ".qdb")
+        {
+            $database = substr($database, 0, strlen($database) - 4);
+        }
+
+        if (!Util::isNameAllowed($database))
+        {
+            throw new QuikDbException("The database name is not allowed: ". $database);
+        }
+
+        return realpath(dirname($directory). DIRECTORY_SEPARATOR. $database. ".qdb") !== false;
+    }
+
+    /**
      * Creates a new QuikDb within the specified directory.
      *
      * @param string $directory The path to store the database, this must not exist already.
@@ -116,7 +138,7 @@ class QuikDb
      */
     public function table()
     {
-        return new QuikTable();
+        return new QuikTable($this);
     }
 
     public function root()

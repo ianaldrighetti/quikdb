@@ -25,7 +25,7 @@ class QuikTableStructure
 
     public function setColumns(array $columns)
     {
-
+        $this->columns = $columns;
     }
 
     public function getColumns()
@@ -48,7 +48,7 @@ class QuikTableStructure
                 'size' => $reader->readUShort(),
                 'nullable' => $reader->readByte() == 1,
                 'default' => $reader->readString(),
-                'auto_increment', $reader->readByte() == 1,
+                'auto_increment' => $reader->readByte() == 1,
             );
         }
     }
@@ -64,7 +64,7 @@ class QuikTableStructure
         $writer = new DataWriter($this->root. DIRECTORY_SEPARATOR. $name. ".qts");
 
         $writer->writeUShort(count($this->columns));
-
+print_r($this->columns);
         foreach ($this->columns as $columnName => $column)
         {
             // TODO validate uniqueness of name

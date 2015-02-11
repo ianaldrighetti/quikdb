@@ -33,6 +33,7 @@ class FileStream
      *
      * @param string|null $filename
      * @param bool $readonly
+     * @throws Exception\QuikDbException
      */
     public function __construct($filename = null, $readonly = false)
     {
@@ -41,7 +42,12 @@ class FileStream
 
         if (!is_null($filename))
         {
-            $this->open($filename);
+            $opened = $this->open($filename);
+
+            if (!$opened)
+            {
+                throw new Exception\QuikDbException("I/O error, could not open: ". $filename);
+            }
         }
     }
 
@@ -59,7 +65,14 @@ class FileStream
             throw new StreamAlreadyOpenException();
         }
 
-        $this->fp = @fopen($filename, !empty($readonly) ? 'r' : 'r+');
+        if (!file_exists($filename) && empty($readonly))
+        {
+            $this->fp = @fopen($filename, 'w+');
+        }
+        else
+        {
+            $this->fp = @fopen($filename, !empty($readonly) ? 'r' : 'r+');
+        }
 
         if (empty($this->fp))
         {
