@@ -20,6 +20,10 @@ class QuikDb
      */
     private $directory;
 
+    /**
+     * @param string|null $directory
+     * @throws QuikDbException
+     */
     public function __construct($directory = null)
     {
         $this->directory = null;
@@ -103,5 +107,20 @@ class QuikDb
         }
 
         return new QuikDb($dirname. DIRECTORY_SEPARATOR. $database);
+    }
+
+    /**
+     * Returns an instance of QuikTable, for dealing with tables.
+     *
+     * @return QuikTable
+     */
+    public function table()
+    {
+        return new QuikTable();
+    }
+
+    public function root()
+    {
+        return $this->directory;
     }
 }

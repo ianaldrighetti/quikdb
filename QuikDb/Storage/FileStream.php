@@ -84,7 +84,7 @@ class FileStream
      *
      * @return bool
      */
-    protected function close()
+    public function close()
     {
         if (is_null($this->fp))
         {

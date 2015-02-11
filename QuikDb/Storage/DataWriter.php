@@ -42,6 +42,25 @@ class DataWriter extends FileStream
     }
 
     /**
+     * Writes a single byte to the file stream.
+     * @param int $value
+     */
+    public function writeByte($value)
+    {
+        $this->write(pack('c', $value));
+    }
+
+    /**
+     * Writes a single unsigned byte to the file stream.
+     *
+     * @param int $value
+     */
+    public function writeUByte($value)
+    {
+        $this->write(pack('C', $value));
+    }
+
+    /**
      * Writes a signed short to the file stream.
      *
      * @param int $value

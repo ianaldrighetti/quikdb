@@ -33,6 +33,26 @@ class DataReader extends FileStream
     }
 
     /**
+     * Reads a signed byte from the file stream.
+     *
+     * @return int
+     */
+    public function readByte()
+    {
+        return (int) $this->unpack('c', 1);
+    }
+
+    /**
+     * Reads an unsigned byte from the file stream.
+     *
+     * @return int
+     */
+    public function readUByte()
+    {
+        return (int) $this->unpack('C', 1);
+    }
+
+    /**
      * Reads a signed short from the file stream.
      *
      * @returns int

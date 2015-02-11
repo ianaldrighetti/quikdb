@@ -33,7 +33,7 @@ The structure of the file looks like so:
 
 All of the following are repeated as many times as there is columns:
 
-`[column 1 name]` The name of the column, which has two pieces: the length (unsigned byte [unsigned char used in PHP]) and then the name of the column. The names are under the same restrictions as the databases and tables: alphanumeric, including underscores but cannot start with a number.
+`[column 1 name]` The name of the column, which has two pieces: the length (unsigned byte [unsigned char used in PHP]) and then the name of the column. The names are under the same restrictions as the databases and tables: alphanumeric, including underscores but cannot start with a number. The column names are case-sensitive.
 
 `[column 1 type]` The type is indicated by 5 characters, types available are laid out below.
 
